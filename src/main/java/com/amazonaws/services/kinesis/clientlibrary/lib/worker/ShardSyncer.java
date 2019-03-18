@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.lib.worker;
 
@@ -70,7 +70,7 @@ class ShardSyncer {
 
     /**
      * Check and create leases for any new shards (e.g. following a reshard operation).
-     * 
+     *
      * @param kinesisProxy
      * @param leaseManager
      * @param initialPositionInStream
@@ -100,7 +100,7 @@ class ShardSyncer {
 
     /**
      * Sync leases with Kinesis shards (e.g. at startup, or when we reach end of a shard).
-     * 
+     *
      * @param kinesisProxy
      * @param leaseManager
      * @param initialPosition
@@ -143,10 +143,10 @@ class ShardSyncer {
                 MetricsHelper.addSuccessAndLatency("CreateLease", startTimeMillis, success, MetricsLevel.DETAILED);
             }
         }
-        
+
         List<KinesisClientLease> trackedLeases = new ArrayList<>();
         if (currentLeases != null) {
-            trackedLeases.addAll(currentLeases);            
+            trackedLeases.addAll(currentLeases);
         }
         trackedLeases.addAll(newLeasesToCreate);
         cleanupGarbageLeases(shards, trackedLeases, kinesisProxy, leaseManager);
@@ -210,7 +210,7 @@ class ShardSyncer {
     }
 
     /**
-     * Note: this has package level access for testing purposes. 
+     * Note: this has package level access for testing purposes.
      * Useful for asserting that we don't have an incomplete shard list following a reshard operation.
      * We verify that if the shard is present in the shard list, it is closed and its hash key range
      *     is covered by its child shards.
@@ -221,17 +221,17 @@ class ShardSyncer {
      */
     static synchronized void assertClosedShardsAreCoveredOrAbsent(Map<String, Shard> shardIdToShardMap,
             Map<String, Set<String>> shardIdToChildShardIdsMap,
-            Set<String> shardIdsOfClosedShards) throws KinesisClientLibIOException {        
+            Set<String> shardIdsOfClosedShards) throws KinesisClientLibIOException {
         String exceptionMessageSuffix = "This can happen if we constructed the list of shards "
                         + " while a reshard operation was in progress.";
-        
+
         for (String shardId : shardIdsOfClosedShards) {
             Shard shard = shardIdToShardMap.get(shardId);
             if (shard == null) {
                 LOG.info("Shard " + shardId + " is not present in Kinesis anymore.");
                 continue;
             }
-            
+
             String endingSequenceNumber = shard.getSequenceNumberRange().getEndingSequenceNumber();
             if (endingSequenceNumber == null) {
                 throw new KinesisClientLibIOException("Shard " + shardIdsOfClosedShards
@@ -251,7 +251,7 @@ class ShardSyncer {
     private static synchronized void assertHashRangeOfClosedShardIsCovered(Shard closedShard,
             Map<String, Shard> shardIdToShardMap,
             Set<String> childShardIds) throws KinesisClientLibIOException {
-        
+
         BigInteger startingHashKeyOfClosedShard = new BigInteger(closedShard.getHashKeyRange().getStartingHashKey());
         BigInteger endingHashKeyOfClosedShard = new BigInteger(closedShard.getHashKeyRange().getEndingHashKey());
         BigInteger minStartingHashKeyOfChildren = null;
@@ -270,16 +270,16 @@ class ShardSyncer {
                 maxEndingHashKeyOfChildren = endingHashKey;
             }
         }
-        
+
         if ((minStartingHashKeyOfChildren == null) || (maxEndingHashKeyOfChildren == null)
                 || (minStartingHashKeyOfChildren.compareTo(startingHashKeyOfClosedShard) > 0)
                 || (maxEndingHashKeyOfChildren.compareTo(endingHashKeyOfClosedShard) < 0)) {
             throw new KinesisClientLibIOException("Incomplete shard list: hash key range of shard "
                     + closedShard.getShardId() + " is not covered by its child shards.");
         }
-        
+
     }
-    
+
     /**
      * Helper method to construct shardId->setOfChildShardIds map.
      * Note: This has package access for testing purposes only.
@@ -301,7 +301,7 @@ class ShardSyncer {
                 }
                 childShardIds.add(shardId);
             }
-            
+
             String adjacentParentShardId = shard.getAdjacentParentShardId();
             if ((adjacentParentShardId != null) && (shardIdToShardMap.containsKey(adjacentParentShardId))) {
                 Set<String> childShardIds = shardIdToChildShardIdsMap.get(adjacentParentShardId);
@@ -337,13 +337,13 @@ class ShardSyncer {
      *         we begin processing data from any of its descendants.
      *   * A shard does not start processing data until data from all its parents has been processed.
      * Note, if the initial position is LATEST and a shard has two parents and only one is a descendant - we'll create
-     * leases corresponding to both the parents - the parent shard which is not a descendant will have  
+     * leases corresponding to both the parents - the parent shard which is not a descendant will have
      * its checkpoint set to Latest.
-     * 
+     *
      * We assume that if there is an existing lease for a shard, then either:
      *   * we have previously created a lease for its parent (if it was needed), or
      *   * the parent shard has expired.
-     * 
+     *
      * For example:
      * Shard structure (each level depicts a stream segment):
      * 0 1 2 3 4   5   - shards till epoch 102
@@ -353,7 +353,7 @@ class ShardSyncer {
      *    8    4 9  10 - shards from epoch 206 (open - no ending sequenceNumber)
      * Current leases: (3, 4, 5)
      * New leases to create: (2, 6, 7, 8, 9, 10)
-     * 
+     *
      * The leases returned are sorted by the starting sequence number - following the same order
      * when persisting the leases in DynamoDB will ensure that we recover gracefully if we fail
      * before creating all the leases.
@@ -363,7 +363,7 @@ class ShardSyncer {
      * high shard count streams (i.e., dynamodb streams for tables with thousands of partitions).  This can only
      * currently happen here if ignoreUnexpectedChildShards was true in syncShardleases.
      *
-     * 
+     *
      * @param shards List of all shards in Kinesis (we'll create new leases based on this set)
      * @param currentLeases List of current leases
      * @param initialPosition One of LATEST, TRIM_HORIZON, or AT_TIMESTAMP. We'll start fetching records from that
@@ -464,7 +464,7 @@ class ShardSyncer {
      * Check if this shard is a descendant of a shard that is (or will be) processed.
      * Create leases for the ancestors of this shard as required.
      * See javadoc of determineNewLeasesToCreate() for rules and example.
-     * 
+     *
      * @param shardId The shardId to check.
      * @param initialPosition One of LATEST, TRIM_HORIZON, or AT_TIMESTAMP. We'll start fetching records from that
      *        location in the shard (when an application starts up for the first time - and there are no checkpoints).
@@ -481,7 +481,7 @@ class ShardSyncer {
             Map<String, Shard> shardIdToShardMapOfAllKinesisShards,
             Map<String, KinesisClientLease> shardIdToLeaseMapOfNewShards,
             Map<String, Boolean> memoizationContext) {
-        
+
         Boolean previousValue = memoizationContext.get(shardId);
         if (previousValue != null) {
             return previousValue;
@@ -561,7 +561,7 @@ class ShardSyncer {
      * Helper method to get parent shardIds of the current shard - includes the parent shardIds if:
      * a/ they are not null
      * b/ if they exist in the current shard map (i.e. haven't expired)
-     * 
+     *
      * @param shard Will return parents of this shard
      * @param shardIdToShardMapOfAllKinesisShards ShardId->Shard map containing all shards obtained via DescribeStream.
      * @return Set of parentShardIds
@@ -580,18 +580,18 @@ class ShardSyncer {
     }
 
     /**
-     * Delete leases corresponding to shards that no longer exist in the stream. 
+     * Delete leases corresponding to shards that no longer exist in the stream.
      * Current scheme: Delete a lease if:
      *   * the corresponding shard is not present in the list of Kinesis shards, AND
      *   * the parentShardIds listed in the lease are also not present in the list of Kinesis shards.
      * @param shards List of all Kinesis shards (assumed to be a consistent snapshot - when stream is in Active state).
-     * @param trackedLeases List of 
+     * @param trackedLeases List of
      * @param kinesisProxy Kinesis proxy (used to get shard list)
-     * @param leaseManager 
+     * @param leaseManager
      * @throws KinesisClientLibIOException Thrown if we couldn't get a fresh shard list from Kinesis.
-     * @throws ProvisionedThroughputException 
-     * @throws InvalidStateException 
-     * @throws DependencyException 
+     * @throws ProvisionedThroughputException
+     * @throws InvalidStateException
+     * @throws DependencyException
      */
     private static void cleanupGarbageLeases(List<Shard> shards,
             List<KinesisClientLease> trackedLeases,
@@ -602,7 +602,7 @@ class ShardSyncer {
         for (Shard shard : shards) {
             kinesisShards.add(shard.getShardId());
         }
-        
+
         // Check if there are leases for non-existent shards
         List<KinesisClientLease> garbageLeases = new ArrayList<>();
         for (KinesisClientLease lease : trackedLeases) {
@@ -610,10 +610,10 @@ class ShardSyncer {
                 garbageLeases.add(lease);
             }
         }
-        
+
         if (!garbageLeases.isEmpty()) {
             LOG.info("Found " + garbageLeases.size()
-                    + " candidate leases for cleanup. Refreshing list of" 
+                    + " candidate leases for cleanup. Refreshing list of"
                     + " Kinesis shards to pick up recent/latest shards");
             List<Shard> currentShardList = getShardList(kinesisProxy);
             Set<String> currentKinesisShardIds = new HashSet<>();
@@ -629,12 +629,12 @@ class ShardSyncer {
                 }
             }
         }
-        
+
     }
 
     /**
      * Note: This method has package level access, solely for testing purposes.
-     * 
+     *
      * @param lease Candidate shard we are considering for deletion.
      * @param currentKinesisShardIds
      * @return true if neither the shard (corresponding to the lease), nor its parents are present in
@@ -645,16 +645,16 @@ class ShardSyncer {
     static boolean isCandidateForCleanup(KinesisClientLease lease, Set<String> currentKinesisShardIds)
         throws KinesisClientLibIOException {
         boolean isCandidateForCleanup = true;
-        
+
         if (currentKinesisShardIds.contains(lease.getLeaseKey())) {
             isCandidateForCleanup = false;
         } else {
             LOG.info("Found lease for non-existent shard: " + lease.getLeaseKey() + ". Checking its parent shards");
             Set<String> parentShardIds = lease.getParentShardIds();
             for (String parentShardId : parentShardIds) {
-                
+
                 // Throw an exception if the parent shard exists (but the child does not).
-                // This may be a (rare) race condition between fetching the shard list and Kinesis expiring shards. 
+                // This may be a (rare) race condition between fetching the shard list and Kinesis expiring shards.
                 if (currentKinesisShardIds.contains(parentShardId)) {
                     String message =
                             "Parent shard " + parentShardId + " exists but not the child shard "
@@ -667,14 +667,14 @@ class ShardSyncer {
 
         return isCandidateForCleanup;
     }
-    
+
     /**
      * Private helper method.
      * Clean up leases for shards that meet the following criteria:
      * a/ the shard has been fully processed (checkpoint is set to SHARD_END)
      * b/ we've begun processing all the child shards: we have leases for all child shards and their checkpoint is not
      *      TRIM_HORIZON.
-     * 
+     *
      * @param currentLeases List of leases we evaluate for clean up
      * @param shardIdToShardMap Map of shardId->Shard (assumed to include all Kinesis shards)
      * @param shardIdToChildShardIdsMap Map of shardId->childShardIds (assumed to include all Kinesis shards)
@@ -716,22 +716,22 @@ class ShardSyncer {
                     cleanupLeaseForClosedShard(closedShardId, childShardIds, trackedLeaseMap, leaseManager);
                 }
             }
-        }        
+        }
     }
 
-    /** 
+    /**
      * Delete lease for the closed shard. Rules for deletion are:
      * a/ the checkpoint for the closed shard is SHARD_END,
      * b/ there are leases for all the childShardIds and their checkpoint is NOT TRIM_HORIZON
      * Note: This method has package level access solely for testing purposes.
-     * 
+     *
      * @param closedShardId Identifies the closed shard
      * @param childShardIds ShardIds of children of the closed shard
      * @param trackedLeases shardId->KinesisClientLease map with all leases we are tracking (should not be null)
-     * @param leaseManager 
-     * @throws ProvisionedThroughputException 
-     * @throws InvalidStateException 
-     * @throws DependencyException 
+     * @param leaseManager
+     * @throws ProvisionedThroughputException
+     * @throws InvalidStateException
+     * @throws DependencyException
      */
     static synchronized void cleanupLeaseForClosedShard(String closedShardId,
             Set<String> childShardIds,
@@ -740,14 +740,14 @@ class ShardSyncer {
         throws DependencyException, InvalidStateException, ProvisionedThroughputException {
         KinesisClientLease leaseForClosedShard = trackedLeases.get(closedShardId);
         List<KinesisClientLease> childShardLeases = new ArrayList<>();
-        
+
         for (String childShardId : childShardIds) {
             KinesisClientLease childLease = trackedLeases.get(childShardId);
             if (childLease != null) {
                 childShardLeases.add(childLease);
             }
         }
-        
+
         if ((leaseForClosedShard != null)
                 && (leaseForClosedShard.getCheckpoint().equals(ExtendedSequenceNumber.SHARD_END))
                 && (childShardLeases.size() == childShardIds.size())) {
@@ -758,7 +758,7 @@ class ShardSyncer {
                     break;
                 }
             }
-            
+
             if (okayToDelete) {
                 LOG.info("Deleting lease for shard " + leaseForClosedShard.getLeaseKey()
                         + " as it has been completely processed and processing of child shards has begun.");
@@ -770,7 +770,7 @@ class ShardSyncer {
     /**
      * Helper method to create a new KinesisClientLease POJO for a shard.
      * Note: Package level access only for testing purposes
-     * 
+     *
      * @param shard
      * @return
      */
@@ -792,7 +792,7 @@ class ShardSyncer {
 
     /**
      * Helper method to construct a shardId->Shard map for the specified list of shards.
-     * 
+     *
      * @param shards List of shards
      * @return ShardId->Shard map
      */
@@ -807,7 +807,7 @@ class ShardSyncer {
     /**
      * Helper method to return all the open shards for a stream.
      * Note: Package level access only for testing purposes.
-     * 
+     *
      * @param allShards All shards returved via DescribeStream. We assume this to represent a consistent shard list.
      * @return List of open shards (shards at the tip of the stream) - may include shards that are not yet active.
      */
@@ -825,7 +825,7 @@ class ShardSyncer {
 
     private static ExtendedSequenceNumber convertToCheckpoint(InitialPositionInStreamExtended position) {
         ExtendedSequenceNumber checkpoint = null;
-        
+
         if (position.getInitialPositionInStream().equals(InitialPositionInStream.TRIM_HORIZON)) {
             checkpoint = ExtendedSequenceNumber.TRIM_HORIZON;
         } else if (position.getInitialPositionInStream().equals(InitialPositionInStream.LATEST)) {
@@ -833,10 +833,10 @@ class ShardSyncer {
         } else if (position.getInitialPositionInStream().equals(InitialPositionInStream.AT_TIMESTAMP)) {
             checkpoint = ExtendedSequenceNumber.AT_TIMESTAMP;
         }
-        
+
         return checkpoint;
     }
-    
+
     /** Helper class to compare leases based on starting sequence number of the corresponding shards.
      *
      */
@@ -846,7 +846,7 @@ class ShardSyncer {
         private static final long serialVersionUID = 1L;
 
         private final Map<String, Shard> shardIdToShardMap;
-        
+
         /**
          * @param shardIdToShardMapOfAllKinesisShards
          */
@@ -860,7 +860,7 @@ class ShardSyncer {
          * We assume that lease1 and lease2 are:
          *     a/ not null,
          *     b/ shards (if found) have non-null starting sequence numbers
-         * 
+         *
          * {@inheritDoc}
          */
         @Override
@@ -870,23 +870,23 @@ class ShardSyncer {
             String shardId2 = lease2.getLeaseKey();
             Shard shard1 = shardIdToShardMap.get(shardId1);
             Shard shard2 = shardIdToShardMap.get(shardId2);
-            
+
             // If we found shards for the two leases, use comparison of the starting sequence numbers
             if ((shard1 != null) && (shard2 != null)) {
                 BigInteger sequenceNumber1 =
                         new BigInteger(shard1.getSequenceNumberRange().getStartingSequenceNumber());
                 BigInteger sequenceNumber2 =
                         new BigInteger(shard2.getSequenceNumberRange().getStartingSequenceNumber());
-                result = sequenceNumber1.compareTo(sequenceNumber2);                
+                result = sequenceNumber1.compareTo(sequenceNumber2);
             }
-            
+
             if (result == 0) {
                 result = shardId1.compareTo(shardId2);
             }
-            
+
             return result;
         }
-                
+
     }
 
 }

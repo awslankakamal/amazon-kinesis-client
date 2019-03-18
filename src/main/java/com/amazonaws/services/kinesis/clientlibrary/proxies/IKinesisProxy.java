@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.proxies;
 
@@ -34,7 +34,7 @@ public interface IKinesisProxy {
 
     /**
      * Get records from stream.
-     * 
+     *
      * @param shardIterator Fetch data records using this shard iterator
      * @param maxRecords Fetch at most this many records
      * @return List of data records from Kinesis.
@@ -47,13 +47,13 @@ public interface IKinesisProxy {
 
     /**
      * Fetch information about stream. Useful for fetching the list of shards in a stream.
-     * 
+     *
      * @deprecated  Going forward this method is
      * being deprecated. This method uses DescribeStream call, which is throttled at 10 calls per account by default.
      * If possible try to use ListShards call available in the client, or use the getShardList or getAllShards to get
      * shard info. To make DescribeStream calls, use the AmazonKinesis client directly instead of using KinesisProxy.
      * This method will be removed in the next major/minor release.
-     * 
+     *
      * @param startShardId exclusive start shardId - used when paginating the list of shards.
      * @return DescribeStreamOutput object containing a description of the stream.
      * @throws ResourceNotFoundException The Kinesis stream was not found
@@ -63,7 +63,7 @@ public interface IKinesisProxy {
 
     /**
      * Fetch the shardIds of all shards in the stream.
-     * 
+     *
      * @return Set of all shardIds
      * @throws ResourceNotFoundException If the specified Kinesis stream was not found
      */
@@ -72,7 +72,7 @@ public interface IKinesisProxy {
     /**
      * Fetch all the shards defined for the stream (e.g. obtained via calls to the DescribeStream API).
      * This can be used to discover new shards and consume data from them.
-     * 
+     *
      * @return List of all shards in the Kinesis stream.
      * @throws ResourceNotFoundException The Kinesis stream was not found.
      */

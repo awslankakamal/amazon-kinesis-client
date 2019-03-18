@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2013 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.leases.impl;
 
@@ -29,7 +29,7 @@ import com.amazonaws.util.json.Jackson;
 public class Lease {
     /*
      * See javadoc for System.nanoTime - summary:
-     * 
+     *
      * Sometimes System.nanoTime's return values will wrap due to overflow. When they do, the difference between two
      * values will be very large. We will consider leases to be expired if they are more than a year old.
      */
@@ -59,7 +59,7 @@ public class Lease {
 
     /**
      * Copy constructor, used by clone().
-     * 
+     *
      * @param lease lease to copy
      */
     protected Lease(Lease lease) {
@@ -79,7 +79,7 @@ public class Lease {
     /**
      * Updates this Lease's mutable, application-specific fields based on the passed-in lease object. Does not update
      * fields that are internal to the leasing library (leaseKey, leaseOwner, leaseCounter).
-     * 
+     *
      * @param other
      */
     public <T extends Lease> void update(T other) {
@@ -142,7 +142,7 @@ public class Lease {
 
     /**
      * Sets lastCounterIncrementNanos
-     * 
+     *
      * @param lastCounterIncrementNanos last renewal in nanoseconds since the epoch
      */
     public void setLastCounterIncrementNanos(Long lastCounterIncrementNanos) {
@@ -151,7 +151,7 @@ public class Lease {
 
     /**
      * Sets concurrencyToken.
-     * 
+     *
      * @param concurrencyToken may not be null
      */
     public void setConcurrencyToken(UUID concurrencyToken) {
@@ -161,7 +161,7 @@ public class Lease {
 
     /**
      * Sets leaseKey. LeaseKey is immutable once set.
-     * 
+     *
      * @param leaseKey may not be null.
      */
     public void setLeaseKey(String leaseKey) {
@@ -175,7 +175,7 @@ public class Lease {
 
     /**
      * Sets leaseCounter.
-     * 
+     *
      * @param leaseCounter may not be null
      */
     public void setLeaseCounter(Long leaseCounter) {
@@ -186,7 +186,7 @@ public class Lease {
 
     /**
      * Sets leaseOwner.
-     * 
+     *
      * @param leaseOwner may be null.
      */
     public void setLeaseOwner(String leaseOwner) {
@@ -237,14 +237,14 @@ public class Lease {
 
     /**
      * Returns a deep copy of this object. Type-unsafe - there aren't good mechanisms for copy-constructing generics.
-     * 
+     *
      * @return A deep copy of this object.
      */
     @SuppressWarnings("unchecked")
     public <T extends Lease> T copy() {
         return (T) new Lease(this);
     }
-    
+
     private void verifyNotNull(Object object, String message) {
         if (object == null) {
             throw new IllegalArgumentException(message);

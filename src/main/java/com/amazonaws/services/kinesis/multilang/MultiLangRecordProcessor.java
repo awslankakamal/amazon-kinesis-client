@@ -1,16 +1,16 @@
 /*
- *  Copyright 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *  Licensed under the Amazon Software License (the "License").
- *  You may not use this file except in compliance with the License.
- *  A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *  http://aws.amazon.com/asl/
- *
- *  or in the "license" file accompanying this file. This file is distributed
- *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *  express or implied. See the License for the specific language governing
- *  permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.multilang;
 
@@ -167,7 +167,7 @@ public class MultiLangRecordProcessor implements IRecordProcessor, IShutdownNoti
 
     /**
      * Constructor.
-     * 
+     *
      * @param processBuilder
      *            Provides process builder functionality.
      * @param executorService
@@ -183,7 +183,7 @@ public class MultiLangRecordProcessor implements IRecordProcessor, IShutdownNoti
 
     /**
      * Note: This constructor has package level access solely for testing purposes.
-     * 
+     *
      * @param processBuilder
      *            Provides the child process for this record processor
      * @param executorService
@@ -265,7 +265,7 @@ public class MultiLangRecordProcessor implements IRecordProcessor, IShutdownNoti
     /**
      * Convenience method used by {@link #childProcessShutdownSequence()} to drain the STDIN and STDERR of the child
      * process.
-     * 
+     *
      * @param future A future to wait on.
      * @param whatThisFutureIsDoing What that future is doing while we wait.
      */
@@ -280,7 +280,7 @@ public class MultiLangRecordProcessor implements IRecordProcessor, IShutdownNoti
     /**
      * Convenience method for logging and safely shutting down so that we don't throw an exception up to the KCL on
      * accident.
-     * 
+     *
      * @param message The reason we are stopping processing.
      * @param reason An exception that caused us to want to stop processing.
      */
@@ -298,7 +298,7 @@ public class MultiLangRecordProcessor implements IRecordProcessor, IShutdownNoti
 
     /**
      * We provide a package level method for unit testing this call to exit.
-     * 
+     *
      * @param val exit value
      */
     void exit() {
@@ -308,7 +308,7 @@ public class MultiLangRecordProcessor implements IRecordProcessor, IShutdownNoti
     /**
      * The {@link ProcessBuilder} class is final so not easily mocked. We wrap the only interaction we have with it in
      * this package level method to permit unit testing.
-     * 
+     *
      * @return The process started by processBuilder
      * @throws IOException If the process can't be started.
      */

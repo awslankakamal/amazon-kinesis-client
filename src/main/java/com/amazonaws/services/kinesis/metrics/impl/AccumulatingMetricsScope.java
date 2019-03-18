@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2015 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.metrics.impl;
 
@@ -26,10 +26,10 @@ import com.amazonaws.services.kinesis.metrics.interfaces.MetricsLevel;
  * An IMetricsScope that accumulates data from multiple calls to addData with
  * the same name parameter. It tracks min, max, sample count, and sum for each
  * named metric.
- * 
+ *
  * @param <KeyType> can be a class or object defined by the user that stores information about a MetricDatum needed
  *        by the user.
- * 
+ *
  *        The following is a example of what a KeyType class might look like:
  *        class SampleKeyType {
  *              private long timeKeyCreated;
@@ -62,9 +62,9 @@ public abstract class AccumulatingMetricsScope<KeyType> extends EndingMetricsSco
     protected abstract KeyType getKey(String name);
 
     /**
-     * Adds data points to an IMetricsScope. Multiple calls to IMetricsScopes that have the 
+     * Adds data points to an IMetricsScope. Multiple calls to IMetricsScopes that have the
      * same key will have their data accumulated.
-     * 
+     *
      * @param key
      *        data point key
      * @param name

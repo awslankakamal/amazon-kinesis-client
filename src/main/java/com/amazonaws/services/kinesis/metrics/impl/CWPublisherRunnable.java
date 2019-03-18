@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2015 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.metrics.impl;
 
@@ -23,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * A CWPublisherRunnable contains the logic of when to publish metrics.
- * 
+ *
  * @param <KeyType>
  */
 
@@ -49,7 +49,7 @@ public class CWPublisherRunnable<KeyType> implements Runnable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param metricsPublisher publishes metrics
      * @param bufferTimeMillis time between publishing metrics
      * @param maxQueueSize max size of metrics to publish
@@ -104,7 +104,7 @@ public class CWPublisherRunnable<KeyType> implements Runnable {
         synchronized (queue) {
             /*
              * We should send if:
-             * 
+             *
              * it's been maxBufferTimeMillis since our last send
              * or if the queue contains > batchSize elements
              * or if we're shutting down
@@ -175,7 +175,7 @@ public class CWPublisherRunnable<KeyType> implements Runnable {
 
     /**
      * Enqueues metric data for publication.
-     * 
+     *
      * @param data collection of MetricDatum to enqueue
      */
     public void enqueue(Collection<MetricDatumWithKey<KeyType>> data) {

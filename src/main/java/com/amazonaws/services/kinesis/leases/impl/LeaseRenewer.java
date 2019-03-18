@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.leases.impl;
 
@@ -59,7 +59,7 @@ public class LeaseRenewer<T extends Lease> implements ILeaseRenewer<T> {
 
     /**
      * Constructor.
-     * 
+     *
      * @param leaseManager LeaseManager to use
      * @param workerIdentifier identifier of this worker
      * @param leaseDurationMillis duration of a lease in milliseconds
@@ -236,7 +236,7 @@ public class LeaseRenewer<T extends Lease> implements ILeaseRenewer<T> {
 
     /**
      * Internal method to return a lease with a specific lease key only if we currently hold it.
-     * 
+     *
      * @param leaseKey key of lease to return
      * @param now current timestamp for old-ness checking
      * @return non-authoritative copy of the held lease, or null if we don't currently hold it
@@ -313,7 +313,7 @@ public class LeaseRenewer<T extends Lease> implements ILeaseRenewer<T> {
                     /*
                      * Remove only if the value currently in the map is the same as the authoritative lease. We're
                      * guarding against a pause after the concurrency token check above. It plays out like so:
-                     * 
+                     *
                      * 1) Concurrency token check passes
                      * 2) Pause. Lose lease, re-acquire lease. This requires at least one lease counter update.
                      * 3) Unpause. leaseManager.updateLease fails conditional write due to counter updates, returns
@@ -321,7 +321,7 @@ public class LeaseRenewer<T extends Lease> implements ILeaseRenewer<T> {
                      * 4) ownedLeases.remove(key, value) doesn't do anything because authoritativeLease does not
                      * .equals() the re-acquired version in the map on the basis of lease counter. This is what we want.
                      * If we just used ownedLease.remove(key), we would have pro-actively removed a lease incorrectly.
-                     * 
+                     *
                      * Note that there is a subtlety here - Lease.equals() deliberately does not check the concurrency
                      * token, but it does check the lease counter, so this scheme works.
                      */

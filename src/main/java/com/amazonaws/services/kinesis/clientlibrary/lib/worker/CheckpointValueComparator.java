@@ -1,16 +1,16 @@
 /*
- * Copyright 2014 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.lib.worker;
 
@@ -21,14 +21,14 @@ import java.util.Comparator;
 import com.amazonaws.services.kinesis.clientlibrary.lib.checkpoint.SentinelCheckpoint;
 
 /**
- * 
+ *
  * Defines an ordering on checkpoint values, taking into account sentinel values: TRIM_HORIZON, LATEST,
  * SHARD_END.
- * 
+ *
  * SHARD_END -> infinity
  * TRIM_HORIZON and LATEST -> less than sequence numbers
  * sequence numbers -> BigInteger value of string
- * 
+ *
  */
 class CheckpointValueComparator implements Comparator<String>, Serializable {
 
@@ -47,11 +47,11 @@ class CheckpointValueComparator implements Comparator<String>, Serializable {
 
     /**
      * Compares checkpoint values with these rules.
-     * 
+     *
      * SHARD_END is considered greatest
      * TRIM_HORIZON and LATEST are considered less than sequence numbers
      * sequence numbers are given their big integer value
-     * 
+     *
      * @param first The first element to be compared
      * @param second The second element to be compared
      * @return returns negative/0/positive if first is less than/equal to/greater than second
@@ -82,7 +82,7 @@ class CheckpointValueComparator implements Comparator<String>, Serializable {
      * logic associated with SHARD_END and the case of comparing two sentinel values has already passed, so we map
      * sentinel values LATEST and TRIM_HORIZON to negative numbers so that they are considered less than sequence
      * numbers.
-     * 
+     *
      * @param checkpointValue string to convert to big integer value
      * @return a BigInteger value representation of the checkpointValue
      */
@@ -101,7 +101,7 @@ class CheckpointValueComparator implements Comparator<String>, Serializable {
 
     /**
      * Checks if the string is all digits or one of the SentinelCheckpoint values.
-     * 
+     *
      * @param string
      * @return true if and only if the string is all digits or one of the SentinelCheckpoint values
      */
@@ -111,7 +111,7 @@ class CheckpointValueComparator implements Comparator<String>, Serializable {
 
     /**
      * Checks if the string is a SentinelCheckpoint value.
-     * 
+     *
      * @param string
      * @return true if and only if the string can be converted to a SentinelCheckpoint
      */

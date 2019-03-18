@@ -1,16 +1,16 @@
 /*
- *  Copyright 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *  Licensed under the Amazon Software License (the "License").
- *  You may not use this file except in compliance with the License.
- *  A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *  http://aws.amazon.com/asl/
- *
- *  or in the "license" file accompanying this file. This file is distributed
- *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *  express or implied. See the License for the specific language governing
- *  permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.lib.worker;
 
@@ -209,20 +209,20 @@ public class KinesisDataFetcherTest {
         // Test shard has reached the end
         Assert.assertTrue("Shard should reach the end", dataFetcher.isShardEndReached());
     }
-    
+
     @Test
     public void testNonNullGetRecords() {
         String nextIterator = "TestIterator";
         int maxRecords = 100;
-        
+
         KinesisProxy mockProxy = mock(KinesisProxy.class);
         doThrow(new ResourceNotFoundException("Test Exception")).when(mockProxy).get(nextIterator, maxRecords);
 
         KinesisDataFetcher dataFetcher = new KinesisDataFetcher(mockProxy, SHARD_INFO);
         dataFetcher.initialize(SentinelCheckpoint.LATEST.toString(), INITIAL_POSITION_LATEST);
-        
+
         DataFetcherResult dataFetcherResult = dataFetcher.getRecords(maxRecords);
-        
+
         assertThat(dataFetcherResult, notNullValue());
     }
 
@@ -274,7 +274,7 @@ public class KinesisDataFetcherTest {
 
         verify(kinesisProxy, never()).get(anyString(), anyInt());
     }
-    
+
     @Test
     public void testRestartIterator() {
         GetRecordsResult getRecordsResult = mock(GetRecordsResult.class);
@@ -287,7 +287,7 @@ public class KinesisDataFetcherTest {
         final String iteratorType = "AT_SEQUENCE_NUMBER";
         KinesisProxy kinesisProxy = mock(KinesisProxy.class);
         KinesisDataFetcher fetcher = new KinesisDataFetcher(kinesisProxy, SHARD_INFO);
-        
+
         when(kinesisProxy.getIterator(eq(SHARD_ID), eq(InitialPositionInStream.LATEST.toString()))).thenReturn(initialIterator);
         when(kinesisProxy.get(eq(initialIterator), eq(10))).thenReturn(getRecordsResult);
         when(getRecordsResult.getRecords()).thenReturn(Collections.singletonList(record));
@@ -307,7 +307,7 @@ public class KinesisDataFetcherTest {
         verify(kinesisProxy).getIterator(eq(SHARD_ID), eq(iteratorType), eq(sequenceNumber));
         verify(kinesisProxy).get(eq(restartShardIterator), eq(10));
     }
-    
+
     @Test (expected = IllegalStateException.class)
     public void testRestartIteratorNotInitialized() {
         KinesisDataFetcher dataFetcher = new KinesisDataFetcher(kinesisProxy, SHARD_INFO);

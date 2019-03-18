@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.lib.worker;
 
@@ -181,7 +181,7 @@ public class ShardSyncerTest {
 
     /**
      * Test bootstrapShardLeases() starting at TRIM_HORIZON ("beginning" of stream)
-     * 
+     *
      * @throws ProvisionedThroughputException
      * @throws InvalidStateException
      * @throws DependencyException
@@ -197,7 +197,7 @@ public class ShardSyncerTest {
 
     /**
      * Test bootstrapShardLeases() starting at LATEST (tip of stream)
-     * 
+     *
      * @throws ProvisionedThroughputException
      * @throws InvalidStateException
      * @throws DependencyException
@@ -617,7 +617,7 @@ public class ShardSyncerTest {
 
     /**
      * Test bootstrapShardLeases() - cleanup garbage leases.
-     * 
+     *
      * @throws ProvisionedThroughputException
      * @throws InvalidStateException
      * @throws DependencyException
@@ -1378,7 +1378,7 @@ public class ShardSyncerTest {
 
     /**
      * Test isCandidateForCleanup
-     * 
+     *
      * @throws KinesisClientLibIOException
      */
     @Test
@@ -1415,7 +1415,7 @@ public class ShardSyncerTest {
 
     /**
      * Test isCandidateForCleanup
-     * 
+     *
      * @throws KinesisClientLibIOException
      */
     @Test(expected = KinesisClientLibIOException.class)
@@ -1436,7 +1436,7 @@ public class ShardSyncerTest {
 
     /**
      * Test isCandidateForCleanup
-     * 
+     *
      * @throws KinesisClientLibIOException
      */
     @Test(expected = KinesisClientLibIOException.class)
@@ -1457,7 +1457,7 @@ public class ShardSyncerTest {
 
     /**
      * Test cleanup of lease for a shard that has been fully processed (and processing of child shards has begun).
-     * 
+     *
      * @throws DependencyException
      * @throws InvalidStateException
      * @throws ProvisionedThroughputException
@@ -1532,7 +1532,7 @@ public class ShardSyncerTest {
 
     /**
      * Test we can handle trimmed Kinesis shards (absent from the shard list), and valid closed shards.
-     * 
+     *
      * @throws KinesisClientLibIOException
      */
     @Test
@@ -1590,7 +1590,7 @@ public class ShardSyncerTest {
 
     /**
      * Test we throw an exception if the shard is open
-     * 
+     *
      * @throws KinesisClientLibIOException
      */
     @Test(expected = KinesisClientLibIOException.class)
@@ -1612,7 +1612,7 @@ public class ShardSyncerTest {
 
     /**
      * Test we throw an exception if there are no children
-     * 
+     *
      * @throws KinesisClientLibIOException
      */
     @Test(expected = KinesisClientLibIOException.class)
@@ -1634,7 +1634,7 @@ public class ShardSyncerTest {
 
     /**
      * Test we throw an exception if children don't cover hash key range (min of children > min of parent)
-     * 
+     *
      * @throws KinesisClientLibIOException
      */
     @Test(expected = KinesisClientLibIOException.class)
@@ -1647,7 +1647,7 @@ public class ShardSyncerTest {
 
     /**
      * Test we throw an exception if children don't cover hash key range (max of children < max of parent)
-     * 
+     *
      * @throws KinesisClientLibIOException
      */
     @Test(expected = KinesisClientLibIOException.class)
@@ -1693,7 +1693,7 @@ public class ShardSyncerTest {
 
     /**
      * Helper method.
-     * 
+     *
      * @param shardId
      * @return
      */

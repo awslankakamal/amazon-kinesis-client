@@ -1,16 +1,16 @@
 /*
- * Copyright 2014 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.lib.worker;
 
@@ -45,7 +45,7 @@ public class SequenceNumberValidator {
 
     /**
      * Constructor.
-     * 
+     *
      * @param proxy Kinesis proxy to be used for getIterator call
      * @param shardId ShardId to check with sequence numbers
      * @param validateWithGetIterator Whether to attempt to get an iterator for this shard id and the sequence numbers
@@ -60,7 +60,7 @@ public class SequenceNumberValidator {
     /**
      * Validates the sequence number by attempting to get an iterator from Amazon Kinesis. Repackages exceptions from
      * Amazon Kinesis into the appropriate KCL exception to allow clients to determine exception handling strategies
-     * 
+     *
      * @param sequenceNumber The sequence number to be validated. Must be a numeric string
      * @throws IllegalArgumentException Thrown when sequence number validation fails.
      * @throws ThrottlingException Thrown when GetShardIterator returns a ProvisionedThroughputExceededException which
@@ -112,7 +112,7 @@ public class SequenceNumberValidator {
 
     /**
      * Checks if the string is composed of only digits.
-     * 
+     *
      * @param string
      * @return true for a string of all digits, false otherwise (including false for null and empty string)
      */

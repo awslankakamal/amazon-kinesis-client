@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2013 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.leases.interfaces;
 
@@ -26,14 +26,14 @@ import com.amazonaws.services.kinesis.leases.impl.Lease;
 
 /**
  * Utility class that manages the mapping of Lease objects/operations to records in DynamoDB.
- * 
+ *
  * @param <T> Lease subclass, possibly Lease itself
  */
 public interface ILeaseSerializer<T extends Lease> {
 
     /**
      * Construct a DynamoDB record out of a Lease object
-     * 
+     *
      * @param lease lease object to serialize
      * @return an attribute value map representing the lease object
      */
@@ -41,7 +41,7 @@ public interface ILeaseSerializer<T extends Lease> {
 
     /**
      * Construct a Lease object out of a DynamoDB record.
-     * 
+     *
      * @param dynamoRecord attribute value map from DynamoDB
      * @return a deserialized lease object representing the attribute value map
      */
@@ -55,7 +55,7 @@ public interface ILeaseSerializer<T extends Lease> {
 
     /**
      * Special getDynamoHashKey implementation used by ILeaseManager.getLease().
-     * 
+     *
      * @param leaseKey
      * @return the attribute value map representing a Lease's hash key given a string.
      */

@@ -1,16 +1,16 @@
 /*
- *  Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *  Licensed under the Amazon Software License (the "License").
- *  You may not use this file except in compliance with the License.
- *  A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *  http://aws.amazon.com/asl/
- *
- *  or in the "license" file accompanying this file. This file is distributed
- *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *  express or implied. See the License for the specific language governing
- *  permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.proxies;
 
@@ -103,7 +103,7 @@ public class KinesisProxy implements IKinesisProxyExtended {
 
     /**
      * @deprecated We expect the client to be passed to the proxy, and the proxy will not require to create it.
-     * 
+     *
      * @param credentialProvider
      * @param endpoint
      * @param serviceName
@@ -123,12 +123,12 @@ public class KinesisProxy implements IKinesisProxyExtended {
 
     /**
      * Public constructor.
-     * 
+     *
      * @deprecated Deprecating constructor, this constructor doesn't use AWS best practices, moving forward please use
      * {@link #KinesisProxy(KinesisClientLibConfiguration, AmazonKinesis)} or
      * {@link #KinesisProxy(String, AmazonKinesis, long, int, long, int)} to create the object. Will be removed in the
      * next major/minor release.
-     * 
+     *
      * @param streamName Data records will be fetched from this stream
      * @param credentialProvider Provides credentials for signing Kinesis requests
      * @param endpoint Kinesis endpoint
@@ -143,12 +143,12 @@ public class KinesisProxy implements IKinesisProxyExtended {
 
     /**
      * Public constructor.
-     * 
+     *
      * @deprecated Deprecating constructor, this constructor doesn't use AWS best practices, moving forward please use
      * {@link #KinesisProxy(KinesisClientLibConfiguration, AmazonKinesis)} or
      * {@link #KinesisProxy(String, AmazonKinesis, long, int, long, int)} to create the object. Will be removed in the
      * next major/minor release.
-     * 
+     *
      * @param streamName Data records will be fetched from this stream
      * @param credentialProvider Provides credentials for signing Kinesis requests
      * @param endpoint Kinesis endpoint
@@ -179,12 +179,12 @@ public class KinesisProxy implements IKinesisProxyExtended {
 
     /**
      * Public constructor.
-     * 
+     *
      * @deprecated Deprecating constructor, this constructor doesn't use AWS best practices, moving forward please use
      * {@link #KinesisProxy(KinesisClientLibConfiguration, AmazonKinesis)} or
      * {@link #KinesisProxy(String, AmazonKinesis, long, int, long, int)} to create the object. Will be removed in the
      * next major/minor release.
-     * 
+     *
      * @param streamName Data records will be fetched from this stream
      * @param credentialProvider Provides credentials for signing Kinesis requests
      * @param kinesisClient Kinesis client (used to fetch data from Kinesis)
@@ -307,7 +307,7 @@ public class KinesisProxy implements IKinesisProxyExtended {
             return null;
         }
     }
-    
+
     private ListShardsResult listShards(final String nextToken) {
         final ListShardsRequest request = new ListShardsRequest();
         request.setRequestCredentials(credentialsProvider.getCredentials());
@@ -319,7 +319,7 @@ public class KinesisProxy implements IKinesisProxyExtended {
         ListShardsResult result = null;
         LimitExceededException lastException = null;
         int remainingRetries = this.maxListShardsRetryAttempts;
-        
+
         while (result == null) {
             try {
                 result = client.listShards(request);
@@ -345,7 +345,7 @@ public class KinesisProxy implements IKinesisProxyExtended {
                 throw new IllegalStateException("Received null from ListShards call.");
             }
         }
-        
+
         return result;
     }
 
@@ -431,14 +431,14 @@ public class KinesisProxy implements IKinesisProxyExtended {
         if (shardIterationState == null) {
             shardIterationState = new ShardIterationState();
         }
-        
+
         if (isKinesisClient) {
             ListShardsResult result;
             String nextToken = null;
-            
+
             do {
                 result = listShards(nextToken);
-                
+
                 if (result == null) {
                     /*
                     * If listShards ever returns null, we should bail and return null. This indicates the stream is not
@@ -450,7 +450,7 @@ public class KinesisProxy implements IKinesisProxyExtended {
                     nextToken = result.getNextToken();
                 }
             } while (StringUtils.isNotEmpty(result.getNextToken()));
-            
+
         } else {
             DescribeStreamResult response;
 

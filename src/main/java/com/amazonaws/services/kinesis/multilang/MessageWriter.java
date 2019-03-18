@@ -1,16 +1,16 @@
 /*
- * Copyright 2014 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.multilang;
 
@@ -64,7 +64,7 @@ class MessageWriter {
     /**
      * Writes the message then writes the line separator provided by the system. Flushes each message to guarantee it
      * is delivered as soon as possible to the subprocess.
-     * 
+     *
      * @param message A message to be written to the subprocess.
      * @return
      * @throws IOException
@@ -101,7 +101,7 @@ class MessageWriter {
 
     /**
      * Converts the message to a JSON string and writes it to the subprocess.
-     * 
+     *
      * @param message A message to be written to the subprocess.
      * @return
      */
@@ -121,7 +121,7 @@ class MessageWriter {
 
     /**
      * Writes an {@link InitializeMessage} to the subprocess.
-     * 
+     *
      * @param initializationInput
      *            contains information about the shard being initialized
      */
@@ -131,7 +131,7 @@ class MessageWriter {
 
     /**
      * Writes a {@link ProcessRecordsMessage} message to the subprocess.
-     * 
+     *
      * @param processRecordsInput
      *            the records, and associated metadata to be processed.
      */
@@ -141,7 +141,7 @@ class MessageWriter {
 
     /**
      * Writes a {@link ShutdownMessage} to the subprocess.
-     * 
+     *
      * @param reason The reason for shutting down.
      */
     Future<Boolean> writeShutdownMessage(ShutdownReason reason) {
@@ -157,7 +157,7 @@ class MessageWriter {
 
     /**
      * Writes a {@link CheckpointMessage} to the subprocess.
-     * 
+     *
      * @param sequenceNumber
      *            The sequence number that was checkpointed.
      * @param subSequenceNumber
@@ -172,7 +172,7 @@ class MessageWriter {
 
     /**
      * Closes the output stream and prevents further attempts to write.
-     * 
+     *
      * @throws IOException Thrown when closing the writer fails
      */
     void close() throws IOException {
@@ -191,7 +191,7 @@ class MessageWriter {
      * {@link MultiLangRecordProcessor#initialize(String)} is called. So we follow a pattern where the attributes are
      * set inside this method instead of the constructor so that this object will be initialized when all its attributes
      * are known to the record processor.
-     * 
+     *
      * @param stream Used to write messages to the subprocess.
      * @param shardId The shard we're working on.
      * @param objectMapper The object mapper to encode messages.

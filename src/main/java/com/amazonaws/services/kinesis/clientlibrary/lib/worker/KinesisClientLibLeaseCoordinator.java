@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.lib.worker;
 
@@ -136,13 +136,13 @@ class KinesisClientLibLeaseCoordinator extends LeaseCoordinator<KinesisClientLea
 
     /**
      * Sets the checkpoint for a shard and updates ownerSwitchesSinceCheckpoint.
-     * 
+     *
      * @param shardId shardId to update the checkpoint for
      * @param checkpoint checkpoint value to set
      * @param concurrencyToken obtained by calling Lease.getConcurrencyToken for a currently held lease
-     * 
+     *
      * @return true if checkpoint update succeeded, false otherwise
-     * 
+     *
      * @throws InvalidStateException if lease table does not exist
      * @throws ProvisionedThroughputException if DynamoDB update fails due to lack of capacity
      * @throws DependencyException if DynamoDB update fails in an unexpected way
@@ -321,7 +321,7 @@ class KinesisClientLibLeaseCoordinator extends LeaseCoordinator<KinesisClientLea
 
     /**
      * Package access for testing.
-     * 
+     *
      * @throws DependencyException
      * @throws InvalidStateException
      */
@@ -331,7 +331,7 @@ class KinesisClientLibLeaseCoordinator extends LeaseCoordinator<KinesisClientLea
 
     /**
      * Package access for testing.
-     * 
+     *
      * @throws DependencyException
      * @throws InvalidStateException
      */
@@ -342,7 +342,7 @@ class KinesisClientLibLeaseCoordinator extends LeaseCoordinator<KinesisClientLea
     /**
      * Used to get information about leases for Kinesis shards (e.g. sync shards and leases, check on parent shard
      * completion).
-     * 
+     *
      * @return LeaseManager
      */
     ILeaseManager<KinesisClientLease> getLeaseManager() {

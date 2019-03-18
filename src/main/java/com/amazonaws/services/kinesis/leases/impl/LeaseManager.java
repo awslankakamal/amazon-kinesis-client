@@ -1,16 +1,16 @@
 /*
- *  Copyright 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *  Licensed under the Amazon Software License (the "License").
- *  You may not use this file except in compliance with the License.
- *  A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *  http://aws.amazon.com/asl/
- *
- *  or in the "license" file accompanying this file. This file is distributed
- *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *  express or implied. See the License for the specific language governing
- *  permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.leases.impl;
 
@@ -64,7 +64,7 @@ public class LeaseManager<T extends Lease> implements ILeaseManager<T> {
 
     /**
      * Constructor.
-     * 
+     *
      * @param table leases table
      * @param dynamoDBClient DynamoDB client to use
      * @param serializer LeaseSerializer to use to convert to/from DynamoDB objects.
@@ -78,7 +78,7 @@ public class LeaseManager<T extends Lease> implements ILeaseManager<T> {
      * - our code is meant to be resilient to inconsistent reads. Using consistent reads during testing speeds up
      * execution of simple tests (you don't have to wait out the consistency window). Test cases that want to experience
      * eventual consistency should not set consistentReads=true.
-     * 
+     *
      * @param table leases table
      * @param dynamoDBClient DynamoDB client to use
      * @param serializer lease serializer to use
@@ -190,9 +190,9 @@ public class LeaseManager<T extends Lease> implements ILeaseManager<T> {
 
     /**
      * Exposed for testing purposes.
-     * 
+     *
      * @param timeToSleepMillis time to sleep in milliseconds
-     * 
+     *
      * @return actual time slept in millis
      */
     long sleep(long timeToSleepMillis) {
@@ -225,7 +225,7 @@ public class LeaseManager<T extends Lease> implements ILeaseManager<T> {
 
     /**
      * List with the given page size. Package access for integration testing.
-     * 
+     *
      * @param limit number of items to consider at a time - used by integration tests to force paging.
      * @return list of leases
      * @throws InvalidStateException if table does not exist
@@ -591,7 +591,7 @@ public class LeaseManager<T extends Lease> implements ILeaseManager<T> {
             return new DependencyException(e);
         }
     }
-    
+
     private void verifyNotNull(Object object, String message) {
         if (object == null) {
             throw new IllegalArgumentException(message);

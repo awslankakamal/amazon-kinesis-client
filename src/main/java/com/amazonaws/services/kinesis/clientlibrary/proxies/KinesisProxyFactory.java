@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2013 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.proxies;
 
@@ -22,7 +22,7 @@ import com.amazonaws.services.kinesis.clientlibrary.lib.worker.KinesisClientLibC
 
 /**
  * Factory used for instantiating KinesisProxy objects (to fetch data from Kinesis).
- * 
+ *
  * @deprecated Will be removed since proxy is created only once, we don't need a factory. There is no replacement for
  * this class. Will be removed in the next major/minor release.
  */
@@ -55,7 +55,7 @@ public class KinesisProxyFactory implements IKinesisProxyFactory {
 
     /**
      * Constructor for KinesisProxy factory using the client configuration to use when interacting with Kinesis.
-     * 
+     *
      * @param credentialProvider credentials provider used to sign requests
      * @param clientConfig Client Configuration used when instantiating an AmazonKinesisClient
      * @param endpoint Amazon Kinesis endpoint to use
@@ -71,7 +71,7 @@ public class KinesisProxyFactory implements IKinesisProxyFactory {
 
     /**
      * This constructor may be used to specify the AmazonKinesisClient to use.
-     * 
+     *
      * @param credentialProvider credentials provider used to sign requests
      * @param client AmazonKinesisClient used to fetch data from Kinesis
      */
@@ -83,7 +83,7 @@ public class KinesisProxyFactory implements IKinesisProxyFactory {
 
     /**
      * Used internally and for development/testing.
-     * 
+     *
      * @param credentialProvider credentials provider used to sign requests
      * @param clientConfig Client Configuration used when instantiating an AmazonKinesisClient
      * @param endpoint Amazon Kinesis endpoint to use
@@ -110,12 +110,12 @@ public class KinesisProxyFactory implements IKinesisProxyFactory {
                 maxDescribeStreamRetryAttempts,
                 listShardsBackoffTimeInMillis,
                 maxListShardsRetryAttempts);
-        
+
     }
 
     /**
      * Used internally in the class (and for development/testing).
-     * 
+     *
      * @param credentialProvider credentials provider used to sign requests
      * @param client AmazonKinesisClient used to fetch data from Kinesis
      * @param describeStreamBackoffTimeInMillis backoff time for describing stream in millis
@@ -135,7 +135,7 @@ public class KinesisProxyFactory implements IKinesisProxyFactory {
         this.listShardsBackoffTimeInMillis = listShardsBackoffTimeInMillis;
         this.maxListShardsRetryAttempts = maxListShardsRetryAttempts;
     }
-    
+
     /**
      * {@inheritDoc}
      */

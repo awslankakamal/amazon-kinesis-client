@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2013 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.lib.worker;
 
@@ -35,11 +35,11 @@ class BlockOnParentShardTask implements ITask {
     private static final Log LOG = LogFactory.getLog(BlockOnParentShardTask.class);
     private final ShardInfo shardInfo;
     private final ILeaseManager<KinesisClientLease> leaseManager;
-    
+
     private final TaskType taskType = TaskType.BLOCK_ON_PARENT_SHARDS;
     // Sleep for this duration if the parent shards have not completed processing, or we encounter an exception.
     private final long parentShardPollIntervalMillis;
-    
+
     /**
      * @param shardInfo Information about the shard we are working on
      * @param leaseManager Used to fetch the lease and checkpoint info for parent shards
@@ -59,7 +59,7 @@ class BlockOnParentShardTask implements ITask {
     @Override
     public TaskResult call() {
         Exception exception = null;
-        
+
         try {
             boolean blockedOnParentShard = false;
             for (String shardId : shardInfo.getParentShardIds()) {
@@ -78,7 +78,7 @@ class BlockOnParentShardTask implements ITask {
                     LOG.info("No lease found for shard " + shardId + ". Not blocking on completion of this shard.");
                 }
             }
-            
+
             if (!blockedOnParentShard) {
                 LOG.info("No need to block on parents " + shardInfo.getParentShardIds() + " of shard "
                         + shardInfo.getShardId());
@@ -93,7 +93,7 @@ class BlockOnParentShardTask implements ITask {
         } catch (InterruptedException e) {
             LOG.error("Sleep interrupted when waiting on parent shard(s) of " + shardInfo.getShardId(), e);
         }
-        
+
         return new TaskResult(exception);
     }
 

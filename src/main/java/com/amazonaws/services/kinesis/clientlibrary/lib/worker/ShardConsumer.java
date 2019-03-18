@@ -1,16 +1,16 @@
 /*
- *  Copyright 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *  Licensed under the Amazon Software License (the "License").
- *  You may not use this file except in compliance with the License.
- *  A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *  http://aws.amazon.com/asl/
- *
- *  or in the "license" file accompanying this file. This file is distributed
- *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *  express or implied. See the License for the specific language governing
- *  permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.lib.worker;
 
@@ -61,7 +61,7 @@ class ShardConsumer {
     private ITask currentTask;
     private long currentTaskSubmitTime;
     private Future<TaskResult> future;
-    
+
     @Getter
     private final GetRecordsCache getRecordsCache;
 
@@ -158,7 +158,7 @@ class ShardConsumer {
                   Optional<Integer> retryGetRecordsInSeconds,
                   Optional<Integer> maxGetRecordsThreadPool,
                   KinesisClientLibConfiguration config) {
-        
+
         this(
                 shardInfo,
                 streamConfig,
@@ -242,7 +242,7 @@ class ShardConsumer {
     /**
      * No-op if current task is pending, otherwise submits next task for this shard.
      * This method should NOT be called if the ShardConsumer is already in SHUTDOWN_COMPLETED state.
-     * 
+     *
      * @return true if a new process task was submitted, false otherwise
      */
     synchronized boolean consumeShard() {
@@ -343,7 +343,7 @@ class ShardConsumer {
     /**
      * Requests the shutdown of the this ShardConsumer. This should give the record processor a chance to checkpoint
      * before being shutdown.
-     * 
+     *
      * @param shutdownNotification used to signal that the record processor has been given the chance to shutdown.
      */
     void notifyShutdownRequested(ShutdownNotification shutdownNotification) {
@@ -354,7 +354,7 @@ class ShardConsumer {
     /**
      * Shutdown this ShardConsumer (including invoking the RecordProcessor shutdown API).
      * This is called by Worker when it loses responsibility for a shard.
-     * 
+     *
      * @return true if shutdown is complete (false if shutdown is still in progress)
      */
     synchronized boolean beginShutdown() {
@@ -374,7 +374,7 @@ class ShardConsumer {
     /**
      * Used (by Worker) to check if this ShardConsumer instance has been shutdown
      * RecordProcessor shutdown() has been invoked, as appropriate.
-     * 
+     *
      * @return true if shutdown is complete
      */
     boolean isShutdown() {
@@ -390,7 +390,7 @@ class ShardConsumer {
 
     /**
      * Figure out next task to run based on current state, task, and shutdown context.
-     * 
+     *
      * @return Return next task to run
      */
     private ITask getNextTask() {
@@ -406,7 +406,7 @@ class ShardConsumer {
     /**
      * Note: This is a private/internal method with package level access solely for testing purposes.
      * Update state based on information about: task success, current state, and shutdown info.
-     * 
+     *
      * @param taskOutcome The outcome of the last task
      */
     void updateState(TaskOutcome taskOutcome) {
@@ -438,7 +438,7 @@ class ShardConsumer {
 
     /**
      * Private/Internal method - has package level access solely for testing purposes.
-     * 
+     *
      * @return the currentState
      */
     ConsumerStates.ShardConsumerState getCurrentState() {

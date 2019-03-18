@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2014 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.types;
 
@@ -58,7 +58,7 @@ public class UserRecord extends Record {
 
     /**
      * Create a User Record.
-     * 
+     *
      * @param aggregated whether the record is aggregated
      * @param record Kinesis record
      * @param subSequenceNumber subsequence number
@@ -68,11 +68,11 @@ public class UserRecord extends Record {
         if (subSequenceNumber < 0) {
             throw new IllegalArgumentException("Cannot have an invalid, negative subsequence number");
         }
-        
+
         this.aggregated = aggregated;
         this.subSequenceNumber = subSequenceNumber;
         this.explicitHashKey = explicitHashKey;
-        
+
         this.setSequenceNumber(record.getSequenceNumber());
         this.setData(record.getData());
         this.setPartitionKey(record.getPartitionKey());
@@ -122,7 +122,7 @@ public class UserRecord extends Record {
         result = prime * result + (int) (subSequenceNumber ^ (subSequenceNumber >>> 32));
         return result;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -167,7 +167,7 @@ public class UserRecord extends Record {
      * This method deaggregates the given list of Amazon Kinesis records into a
      * list of KPL user records. This method will then return the resulting list
      * of KPL user records.
-     * 
+     *
      * @param records
      *            A list of Amazon Kinesis records, each possibly aggregated.
      * @return A resulting list of deaggregated KPL user records.
@@ -182,7 +182,7 @@ public class UserRecord extends Record {
      * partition key falls outside the range of the startingHashKey and the
      * endingHashKey are discarded from the resulting list. This method will
      * then return the resulting list of KPL user records.
-     * 
+     *
      * @param records
      *            A list of Amazon Kinesis records, each possibly aggregated.
      * @param startingHashKey

@@ -1,16 +1,16 @@
 /*
- *  Copyright 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *  Licensed under the Amazon Software License (the "License").
- *  You may not use this file except in compliance with the License.
- *  A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *  http://aws.amazon.com/asl/
- *
- *  or in the "license" file accompanying this file. This file is distributed
- *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *  express or implied. See the License for the specific language governing
- *  permissions and limitations under the License. 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.amazonaws.services.kinesis.clientlibrary.lib.worker;
@@ -66,9 +66,9 @@ public class PrefetchGetRecordsCache implements GetRecordsCache {
     /**
      * Constructor for the PrefetchGetRecordsCache. This cache prefetches records from Kinesis and stores them in a
      * LinkedBlockingQueue.
-     * 
+     *
      * @see com.amazonaws.services.kinesis.clientlibrary.lib.worker.PrefetchGetRecordsCache
-     * 
+     *
      * @param maxPendingProcessRecordsInput Max number of ProcessRecordsInput that can be held in the cache before
      *                                     blocking
      * @param maxByteSize Max byte size of the queue before blocking next get records call
@@ -108,7 +108,7 @@ public class PrefetchGetRecordsCache implements GetRecordsCache {
         if (executorService.isShutdown()) {
             throw new IllegalStateException("ExecutorService has been shutdown.");
         }
-        
+
         if (!started) {
             log.info("Starting prefetching thread.");
             executorService.execute(defaultGetRecordsCacheDaemon);
@@ -121,7 +121,7 @@ public class PrefetchGetRecordsCache implements GetRecordsCache {
         if (executorService.isShutdown()) {
             throw new IllegalStateException("Shutdown has been called on the cache, can't accept new requests.");
         }
-        
+
         if (!started) {
             throw new IllegalStateException("Cache has not been initialized, make sure to call start.");
         }
@@ -149,7 +149,7 @@ public class PrefetchGetRecordsCache implements GetRecordsCache {
 
     private class DefaultGetRecordsCacheDaemon implements Runnable {
         volatile boolean isShutdown = false;
-        
+
         @Override
         public void run() {
             while (!isShutdown) {
@@ -174,10 +174,10 @@ public class PrefetchGetRecordsCache implements GetRecordsCache {
                     } catch (ExpiredIteratorException e) {
                         log.info(String.format("ShardId %s: getRecords threw ExpiredIteratorException - restarting"
                                 + " after greatest seqNum passed to customer", shardId), e);
-                        
+
                         MetricsHelper.getMetricsScope().addData(EXPIRED_ITERATOR_METRIC, 1, StandardUnit.Count,
                                 MetricsLevel.SUMMARY);
-                        
+
                         dataFetcher.restartIterator();
                     } catch (SdkClientException e) {
                         log.error("Exception thrown while fetching records from Kinesis", e);
@@ -203,13 +203,13 @@ public class PrefetchGetRecordsCache implements GetRecordsCache {
             }
             callShutdownOnStrategy();
         }
-        
+
         private void callShutdownOnStrategy() {
             if (!getRecordsRetrievalStrategy.isShutdown()) {
                 getRecordsRetrievalStrategy.shutdown();
             }
         }
-        
+
         private void sleepBeforeNextCall() throws InterruptedException {
             if (lastSuccessfulCall == null) {
                 return;
@@ -250,7 +250,7 @@ public class PrefetchGetRecordsCache implements GetRecordsCache {
                 this.wait(idleMillisBetweenCalls);
             }
         }
-        
+
         public synchronized boolean shouldGetNewRecords() {
             if (log.isDebugEnabled()) {
                 log.debug("Current Prefetch Counter States: " + this.toString());

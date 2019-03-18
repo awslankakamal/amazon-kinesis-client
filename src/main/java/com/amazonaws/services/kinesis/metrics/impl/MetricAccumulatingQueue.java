@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2013 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.metrics.impl;
 
@@ -26,10 +26,10 @@ import com.amazonaws.services.cloudwatch.model.StatisticSet;
 
 /**
  * Helper class for accumulating MetricDatums with the same name and dimensions.
- * 
+ *
  * @param <KeyType> can be a class or object defined by the user that stores information about a MetricDatum needed
  *        by the user.
- * 
+ *
  *        The following is a example of what a KeyType class might look like:
  *        class SampleKeyType {
  *              private long timeKeyCreated;
@@ -79,7 +79,7 @@ public class MetricAccumulatingQueue<KeyType> {
     /**
      * We use a queue and a map in this method. The reason for this is because, the queue will keep our metrics in
      * FIFO order and the map will provide us with constant time lookup to get the appropriate MetricDatum.
-     * 
+     *
      * @param key metric key to be inserted into queue
      * @param datum metric to be inserted into queue
      * @return a boolean depending on whether the datum was inserted into the queue

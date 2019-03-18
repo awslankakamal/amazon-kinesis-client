@@ -1,16 +1,16 @@
 /*
- * Copyright 2014 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.multilang;
 
@@ -23,16 +23,16 @@ import org.apache.commons.logging.LogFactory;
  * This class is used to drain the STDOUT of the child process. After the child process has been given a shutdown
  * message and responded indicating that it is shutdown, we attempt to close the input and outputs of that process so
  * that the process can exit.
- * 
+ *
  * To understand why this is necessary, consider the following scenario:
- * 
+ *
  * <ol>
  * <li>Child process responds that it is done with shutdown.</li>
  * <li>Child process prints debugging text to STDOUT that fills the pipe buffer so child becomes blocked.</li>
  * <li>Parent process doesn't drain child process's STDOUT.</li>
  * <li>Child process remains blocked.</li>
  * </ol>
- * 
+ *
  * To prevent the child process from becoming blocked in this way, it is the responsibility of the parent process to
  * drain the child process's STDOUT. We reprint each drained line to our log to permit debugging.
  */

@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.leases.impl;
 
@@ -122,11 +122,11 @@ public class LeaseTaker<T extends Lease> implements ILeaseTaker<T> {
      * Internal implementation of takeLeases. Takes a callable that can provide the time to enable test cases without
      * Thread.sleep. Takes a callable instead of a raw time value because the time needs to be computed as-of
      * immediately after the scan.
-     * 
+     *
      * @param timeProvider Callable that will supply the time
-     * 
+     *
      * @return map of lease key to taken lease
-     * 
+     *
      * @throws DependencyException
      * @throws InvalidStateException
      */
@@ -235,17 +235,17 @@ public class LeaseTaker<T extends Lease> implements ILeaseTaker<T> {
             builder.append(string);
             needDelimiter = true;
         }
-        
+
         return builder.toString();
     }
 
     /**
      * Scan all leases and update lastRenewalTime. Add new leases and delete old leases.
-     * 
+     *
      * @param timeProvider callable that supplies the current time
-     * 
+     *
      * @return list of expired leases, possibly empty, never null.
-     * 
+     *
      * @throws ProvisionedThroughputException if listLeases fails due to lack of provisioned throughput
      * @throws InvalidStateException if the lease table does not exist
      * @throws DependencyException if listLeases fails in an unexpected way
@@ -322,7 +322,7 @@ public class LeaseTaker<T extends Lease> implements ILeaseTaker<T> {
 
     /**
      * Compute the number of leases I should try to take based on the state of the system.
-     * 
+     *
      * @param allLeases map of shardId to lease containing all leases
      * @param expiredLeases list of leases we determined to be expired
      * @return set of leases to take.
@@ -347,7 +347,7 @@ public class LeaseTaker<T extends Lease> implements ILeaseTaker<T> {
         } else {
             /*
              * numWorkers must be < numLeases.
-             * 
+             *
              * Our target for each worker is numLeases / numWorkers (+1 if numWorkers doesn't evenly divide numLeases)
              */
             target = numLeases / numWorkers + (numLeases % numWorkers == 0 ? 0 : 1);
@@ -423,11 +423,11 @@ public class LeaseTaker<T extends Lease> implements ILeaseTaker<T> {
     /**
      * Choose leases to steal by randomly selecting one or more (up to max) from the most loaded worker.
      * Stealing rules:
-     * 
+     *
      * Steal up to maxLeasesToStealAtOneTime leases from the most loaded worker if
      * a) he has > target leases and I need >= 1 leases : steal min(leases needed, maxLeasesToStealAtOneTime)
      * b) he has == target leases and I need > 1 leases : steal 1
-     * 
+     *
      * @param leaseCounts map of workerIdentifier to lease count
      * @param needed # of leases needed to reach the target leases for the worker
      * @param target target # of leases per worker
@@ -500,7 +500,7 @@ public class LeaseTaker<T extends Lease> implements ILeaseTaker<T> {
     /**
      * Count leases by host. Always includes myself, but otherwise only includes hosts that are currently holding
      * leases.
-     * 
+     *
      * @param expiredLeases list of leases that are currently expired
      * @return map of workerIdentifier to lease count
      */

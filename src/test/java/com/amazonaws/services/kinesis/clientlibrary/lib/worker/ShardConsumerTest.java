@@ -1,16 +1,16 @@
 /*
- *  Copyright 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *  Licensed under the Amazon Software License (the "License").
- *  You may not use this file except in compliance with the License.
- *  A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *  http://aws.amazon.com/asl/
- *
- *  or in the "license" file accompanying this file. This file is distributed
- *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *  express or implied. See the License for the specific language governing
- *  permissions and limitations under the License. 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.lib.worker;
 
@@ -102,11 +102,11 @@ public class ShardConsumerTest {
     // ... a non-final public class, and so can be mocked and spied.
     private final ExecutorService executorService = Executors.newFixedThreadPool(1);
     private RecordsFetcherFactory recordsFetcherFactory;
-    
+
     private GetRecordsCache getRecordsCache;
-    
+
     private KinesisDataFetcher dataFetcher;
-    
+
     @Mock
     private IRecordProcessor processor;
     @Mock
@@ -124,12 +124,12 @@ public class ShardConsumerTest {
     public void setup() {
         getRecordsCache = null;
         dataFetcher = null;
-        
+
         recordsFetcherFactory = spy(new SimpleRecordsFetcherFactory());
         when(config.getRecordsFetcherFactory()).thenReturn(recordsFetcherFactory);
         when(config.getLogWarningForTaskAfterMillis()).thenReturn(Optional.empty());
     }
-    
+
     /**
      * Test method to verify consumer stays in INITIALIZING state when InitializationTask fails.
      */
@@ -162,7 +162,7 @@ public class ShardConsumerTest {
                         taskBackoffTimeMillis,
                         KinesisClientLibConfiguration.DEFAULT_SKIP_SHARD_SYNC_AT_STARTUP_IF_LEASES_EXIST,
                         config);
-        
+
         assertThat(consumer.getCurrentState(), is(equalTo(ConsumerStates.ShardConsumerState.WAITING_ON_PARENT_SHARDS)));
         consumer.consumeShard(); // initialize
         Thread.sleep(50L);
@@ -353,7 +353,7 @@ public class ShardConsumerTest {
         when(recordsFetcherFactory.createRecordsFetcher(any(GetRecordsRetrievalStrategy.class), anyString(),
                 any(IMetricsFactory.class), anyInt()))
                 .thenReturn(getRecordsCache);
-        
+
         ShardConsumer consumer =
                 new ShardConsumer(shardInfo,
                         streamConfig,
@@ -392,7 +392,7 @@ public class ShardConsumerTest {
             }
             Thread.sleep(50L);
         }
-        
+
         verify(getRecordsCache, times(5)).getNextResult();
 
         assertThat(processor.getShutdownReason(), nullValue());
@@ -417,7 +417,7 @@ public class ShardConsumerTest {
         verify(shutdownNotification, atLeastOnce()).shutdownComplete();
         assertThat(consumer.getCurrentState(), is(equalTo(ConsumerStates.ShardConsumerState.SHUTDOWN_COMPLETE)));
         assertThat(processor.getShutdownReason(), is(equalTo(ShutdownReason.ZOMBIE)));
-        
+
         verify(getRecordsCache).shutdown();
 
         executorService.shutdown();
@@ -497,7 +497,7 @@ public class ShardConsumerTest {
                 ),
                 metricsFactory
         );
-        
+
         ShardConsumer consumer =
                 new ShardConsumer(shardInfo,
                         streamConfig,
@@ -615,7 +615,7 @@ public class ShardConsumerTest {
                         atTimestamp);
 
         ShardInfo shardInfo = new ShardInfo(streamShardId, testConcurrencyToken, null, ExtendedSequenceNumber.TRIM_HORIZON);
-        
+
         RecordProcessorCheckpointer recordProcessorCheckpointer = new RecordProcessorCheckpointer(
                 shardInfo,
                 checkpoint,
@@ -628,7 +628,7 @@ public class ShardConsumerTest {
         );
 
         dataFetcher = new KinesisDataFetcher(streamConfig.getStreamProxy(), shardInfo);
-        
+
         getRecordsCache = spy(new BlockingGetRecordsCache(maxRecords,
                 new SynchronousGetRecordsRetrievalStrategy(dataFetcher)));
         when(recordsFetcherFactory.createRecordsFetcher(any(GetRecordsRetrievalStrategy.class), anyString(),
@@ -660,7 +660,7 @@ public class ShardConsumerTest {
         assertThat(consumer.getCurrentState(), is(equalTo(ConsumerStates.ShardConsumerState.INITIALIZING)));
         consumer.consumeShard(); // initialize
         Thread.sleep(50L);
-        
+
         verify(getRecordsCache).start();
 
         // We expect to process all records in numRecs calls
@@ -674,7 +674,7 @@ public class ShardConsumerTest {
             }
             Thread.sleep(50L);
         }
-        
+
         verify(getRecordsCache, times(4)).getNextResult();
 
         assertThat(processor.getShutdownReason(), nullValue());
@@ -692,7 +692,7 @@ public class ShardConsumerTest {
 
         String iterator = fileBasedProxy.getIterator(streamShardId, timestamp);
         List<Record> expectedRecords = toUserRecords(fileBasedProxy.get(iterator, numRecs).getRecords());
-        
+
         verifyConsumedRecords(expectedRecords, processor.getProcessedRecords());
         assertEquals(4, processor.getProcessedRecords().size());
         file.delete();
@@ -749,7 +749,7 @@ public class ShardConsumerTest {
         Thread.sleep(50L);
         assertThat(consumer.getCurrentState(), is(equalTo(ConsumerStates.ShardConsumerState.PROCESSING)));
     }
-    
+
     @Test
     public void testCreateSynchronousGetRecordsRetrieval() {
         ShardInfo shardInfo = new ShardInfo("s-0-0", "testToken", null, ExtendedSequenceNumber.TRIM_HORIZON);
@@ -759,7 +759,7 @@ public class ShardConsumerTest {
                         10,
                         callProcessRecordsForEmptyRecordList,
                         skipCheckpointValidationValue, INITIAL_POSITION_LATEST);
-        
+
         ShardConsumer shardConsumer =
                 new ShardConsumer(shardInfo,
                         streamConfig,
@@ -775,7 +775,7 @@ public class ShardConsumerTest {
                         Optional.empty(),
                         Optional.empty(),
                         config);
-        
+
         assertEquals(shardConsumer.getGetRecordsCache().getGetRecordsRetrievalStrategy().getClass(),
                 SynchronousGetRecordsRetrievalStrategy.class);
     }
@@ -809,19 +809,19 @@ public class ShardConsumerTest {
         assertEquals(shardConsumer.getGetRecordsCache().getGetRecordsRetrievalStrategy().getClass(),
                 AsynchronousGetRecordsRetrievalStrategy.class);
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void testLongRunningTasks() throws InterruptedException {
         final long sleepTime = 1000L;
         ExecutorService mockExecutorService = mock(ExecutorService.class);
         Future<TaskResult> mockFuture = mock(Future.class);
-        
+
         when(mockExecutorService.submit(any(ITask.class))).thenReturn(mockFuture);
         when(mockFuture.isDone()).thenReturn(false);
         when(mockFuture.isCancelled()).thenReturn(false);
         when(config.getLogWarningForTaskAfterMillis()).thenReturn(Optional.of(sleepTime));
-        
+
         ShardInfo shardInfo = new ShardInfo("s-0-0", "testToken", null, ExtendedSequenceNumber.LATEST);
         StreamConfig streamConfig = new StreamConfig(
                 streamProxy,
@@ -830,7 +830,7 @@ public class ShardConsumerTest {
                 callProcessRecordsForEmptyRecordList,
                 skipCheckpointValidationValue,
                 INITIAL_POSITION_LATEST);
-        
+
         ShardConsumer shardConsumer = new ShardConsumer(
                 shardInfo,
                 streamConfig,
@@ -844,13 +844,13 @@ public class ShardConsumerTest {
                 taskBackoffTimeMillis,
                 KinesisClientLibConfiguration.DEFAULT_SKIP_SHARD_SYNC_AT_STARTUP_IF_LEASES_EXIST,
                 config);
-        
+
         shardConsumer.consumeShard();
 
         Thread.sleep(sleepTime);
-        
+
         shardConsumer.consumeShard();
-        
+
         verify(config).getLogWarningForTaskAfterMillis();
         verify(mockFuture).isDone();
         verify(mockFuture).isCancelled();

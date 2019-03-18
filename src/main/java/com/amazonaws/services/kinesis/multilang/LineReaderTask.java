@@ -1,16 +1,16 @@
 /*
- * Copyright 2014 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.multilang;
 
@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  * <li> {@link #returnAfterEndOfInput()}</li>
  * <li> {@link #returnAfterException(Exception)}</li>
  * </ol>
- * 
+ *
  * @param <T>
  */
 abstract class LineReaderTask<T> implements Callable<T> {
@@ -75,7 +75,7 @@ abstract class LineReaderTask<T> implements Callable<T> {
      * return from the {@link #call()} function by having a value, indicating that value should be returned immediately
      * without reading further, or not having a value, indicating that more lines of input need to be read before
      * returning.
-     * 
+     *
      * @param line A line read from the input stream.
      * @return HandleLineResult<T> which may or may not have a has return value, indicating to return or not return yet
      *         respectively.
@@ -86,7 +86,7 @@ abstract class LineReaderTask<T> implements Callable<T> {
      * This method will be called if there is an error while reading from the input stream. The return value of this
      * method will be returned as the result of this Callable unless an Exception is thrown. If an Exception is thrown
      * then that exception will be thrown by the Callable.
-     * 
+     *
      * @param e An exception that occurred while reading from the input stream.
      * @return What to return.
      */
@@ -96,7 +96,7 @@ abstract class LineReaderTask<T> implements Callable<T> {
      * This method will be called once the end of the input stream is reached. The return value of this method will be
      * returned as the result of this Callable. Implementations of this method are welcome to throw a runtime exception
      * to indicate that the task was unsuccessful.
-     * 
+     *
      * @return What to return.
      */
     protected abstract T returnAfterEndOfInput();
@@ -104,7 +104,7 @@ abstract class LineReaderTask<T> implements Callable<T> {
     /**
      * Allows subclasses to provide more detailed logs. Specifically, this allows the drain tasks and GetNextMessageTask
      * to log which shard they're working on.
-     * 
+     *
      * @return The shard id
      */
     public String getShardId() {
@@ -113,7 +113,7 @@ abstract class LineReaderTask<T> implements Callable<T> {
 
     /**
      * The description should be a string explaining what this particular LineReader class does.
-     * 
+     *
      * @return The description.
      */
     public String getDescription() {
@@ -124,7 +124,7 @@ abstract class LineReaderTask<T> implements Callable<T> {
      * The result of a call to {@link LineReaderTask#handleLine(String)}. Allows implementations of that method to
      * indicate whether a particular invocation of that method produced a return for this task or not. If a return value
      * doesn't exist the {@link #call()} method will continue to the next line.
-     * 
+     *
      * @param <V>
      */
     protected class HandleLineResult<V> {
@@ -161,7 +161,7 @@ abstract class LineReaderTask<T> implements Callable<T> {
      * {@link MultiLangRecordProcessor#initialize(String)} is called. So we follow a pattern where the attributes are
      * set inside this method instead of the constructor so that this object will be initialized when all its attributes
      * are known to the record processor.
-     * 
+     *
      * @param stream
      * @param shardId
      * @param description

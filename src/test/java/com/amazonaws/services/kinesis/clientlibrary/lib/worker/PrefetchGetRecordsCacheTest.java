@@ -1,16 +1,16 @@
 /*
- *  Copyright 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *  Licensed under the Amazon Software License (the "License").
- *  You may not use this file except in compliance with the License.
- *  A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *  http://aws.amazon.com/asl/
- *
- *  or in the "license" file accompanying this file. This file is distributed
- *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- *  express or implied. See the License for the specific language governing
- *  permissions and limitations under the License. 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.amazonaws.services.kinesis.clientlibrary.lib.worker;
@@ -80,7 +80,7 @@ public class PrefetchGetRecordsCacheTest {
     @Before
     public void setup() {
         when(getRecordsRetrievalStrategy.getDataFetcher()).thenReturn(dataFetcher);
-        
+
         executorService = spy(Executors.newFixedThreadPool(1));
         getRecordsCache = new PrefetchGetRecordsCache(
                 MAX_SIZE,
@@ -189,30 +189,30 @@ public class PrefetchGetRecordsCacheTest {
 
         assertTrue(spyQueue.size() <= MAX_SIZE);
     }
-    
+
     @Test(expected = IllegalStateException.class)
     public void testGetNextRecordsWithoutStarting() {
         verify(executorService, times(0)).execute(any());
         getRecordsCache.getNextResult();
     }
-    
+
     @Test(expected = IllegalStateException.class)
     public void testCallAfterShutdown() {
         when(executorService.isShutdown()).thenReturn(true);
         getRecordsCache.getNextResult();
     }
-    
+
     @Test
     public void testExpiredIteratorException() {
         getRecordsCache.start();
-        
+
         when(getRecordsRetrievalStrategy.getRecords(MAX_RECORDS_PER_CALL)).thenThrow(ExpiredIteratorException.class).thenReturn(getRecordsResult);
         doNothing().when(dataFetcher).restartIterator();
-        
+
         getRecordsCache.getNextResult();
-        
+
         sleep(1000);
-        
+
         verify(dataFetcher).restartIterator();
     }
 

@@ -1,16 +1,16 @@
 /*
- * Copyright 2012-2014 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2019 Amazon.com, Inc. or its affiliates.
+ * Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Amazon Software License (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://aws.amazon.com/asl/
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.amazonaws.services.kinesis.clientlibrary.interfaces;
 
@@ -34,7 +34,7 @@ public interface IRecordProcessorCheckpointer {
      * In steady state, applications should checkpoint periodically (e.g. once every 5 minutes).
      * Calling this API too frequently can slow down the application (because it puts pressure on the underlying
      * checkpoint storage layer).
-     * 
+     *
      * @throws ThrottlingException Can't store checkpoint. Can be caused by checkpointing too frequently.
      *         Consider increasing the throughput/capacity of the checkpoint store or reducing checkpoint frequency.
      * @throws ShutdownException The record processor instance has been shutdown. Another instance may have
@@ -52,7 +52,7 @@ public interface IRecordProcessorCheckpointer {
      * This method will checkpoint the progress at the provided record. This method is analogous to
      * {@link #checkpoint()} but provides the ability to specify the record at which to
      * checkpoint.
-     * 
+     *
      * @param record A record at which to checkpoint in this shard. Upon failover,
      *        the Kinesis Client Library will start fetching records after this record's sequence number.
      * @throws ThrottlingException Can't store checkpoint. Can be caused by checkpointing too frequently.
@@ -72,7 +72,7 @@ public interface IRecordProcessorCheckpointer {
      * This method will checkpoint the progress at the provided sequenceNumber. This method is analogous to
      * {@link #checkpoint()} but provides the ability to specify the sequence number at which to
      * checkpoint.
-     * 
+     *
      * @param sequenceNumber A sequence number at which to checkpoint in this shard. Upon failover,
      *        the Kinesis Client Library will start fetching records after this sequence number.
      * @throws ThrottlingException Can't store checkpoint. Can be caused by checkpointing too frequently.
@@ -96,9 +96,9 @@ public interface IRecordProcessorCheckpointer {
 
     /**
      * This method will checkpoint the progress at the provided sequenceNumber and subSequenceNumber, the latter for
-     * aggregated records produced with the Producer Library. This method is analogous to {@link #checkpoint()} 
+     * aggregated records produced with the Producer Library. This method is analogous to {@link #checkpoint()}
      * but provides the ability to specify the sequence and subsequence numbers at which to checkpoint.
-     * 
+     *
      * @param sequenceNumber A sequence number at which to checkpoint in this shard. Upon failover, the Kinesis
      *        Client Library will start fetching records after the given sequence and subsequence numbers.
      * @param subSequenceNumber A subsequence number at which to checkpoint within this shard. Upon failover, the
